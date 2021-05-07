@@ -1,0 +1,87 @@
+<!---<img src="https://redes2-201701048.s3.us-east-2.amazonaws.com/perfil.jpg" alt="">--->
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Reportes de asistencia</h1>
+            <span class="newReport" (click)="abrirModal()">Nueva asistencia +</span>
+            <hr>
+            <br>
+            <input type="text" class="form-control-plaintext" required name="name" placeholder="Filtro por id evento"
+                [(ngModel)]="filter_id" (ngModelChange)="filterIdChange()">
+            <br>
+            <input type="text" class="form-control-plaintext" required name="name" placeholder="Filtro por carnet"
+                [(ngModel)]="filter_carnet" (ngModelChange)="filterChange()">
+            <br>
+            <span class="served">{{current_server}} </span>
+        </div>
+    </div>
+    <section class="row">
+        <div *ngFor="let item of reportes; let i = index" class="menu-item-tile col-md-6">
+          <div class="row">
+            <div class="col-sm-5">
+              <div class="menu-item-photo">
+                <div class="identifier">{{item.carnet}}</div>
+                <img width="250" height="150" [src]="item.img" alt="Item" class="img-responsive">
+              </div>
+              <div class="menu-item-price">Id del Evento:{{item.id}}</div>
+            </div>
+            <div class="menu-item-description col-sm-7">
+              <h3 class="menu-item-title">{{item.name}}</h3>
+              <p class="menu-item-details">{{item.event}}</p>
+            </div>
+          </div>
+          <hr class="d-block d-sm-block d-md-none">
+        </div>
+      </section>
+</div>
+
+
+
+
+
+<ng-template #modalAdd let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            <span>Registrar nueva asistencia</span>
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="myForm" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label for="id" class="col-form-label">Id del evento:</label>
+                <input type="number" formControlName="id" class="form-control" id="id"
+                    aria-describedby="precioHelp" placeholder="Ingresa el id del evento">
+            </div>
+            <div class="form-group">
+                <label for="event">Nombre del evento:</label>
+                <input type="text" formControlName="event" class="form-control" id="event" aria-describedby="nameHelp"
+                    placeholder="Ingresa el nombre del evento">
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="nameHelp"
+                    placeholder="Ingresa tu nombre">
+            </div>
+            <div class="form-group">
+                <label for="carnet" class="col-form-label">Carnet:</label>
+                <input type="number" formControlName="carnet" class="form-control" id="carnet"
+                    aria-describedby="precioHelp" placeholder="Ingresa tu carnet">
+            </div>
+            <div class="form-group">
+                <label for="file" class="col-form-label">Captura de asistencia:</label>
+                <input formControlName="file" id="file" type="file" class="form-control"
+                    (change)="onFileChange($event)">
+            </div>
+            <img [src]="imageSrc" *ngIf="imageSrc" style="width:100%">
+            <button class="btn btn-primary" type="submit" style="margin-top: 3%;">Submit</button>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+
+    </div>
+</ng-template>

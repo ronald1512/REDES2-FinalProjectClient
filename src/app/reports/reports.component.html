@@ -1,0 +1,133 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Reportes de actividades</h1>
+            <span class="newReport" (click)="abrirModal()">Nuevo reporte +</span>
+            <hr>
+            <br>
+            <input type="text" class="form-control-plaintext" required name="name" placeholder="Filtro por carnet"
+                [(ngModel)]="filter" (ngModelChange)="filterChange()">
+            <br>
+            <span class="served">{{current_server}} </span>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Carnet</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Curso/Proyecto</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Servidor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of reportes; let i = index" (click)="abrirModalVista(i)">
+                        <th scope="row">{{item.id}}</th>
+                        <td>{{item.carnet}}</td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.course}}</td>
+                        <td>{{last_request_time}}</td>
+                        <td>{{item.server}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #modalView let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">
+            <span>Vista de Reporte</span>
+        </h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label for="name">Carnet:</label>
+                <input type="text" class="form-control" required name="name" placeholder="User"
+                    [value]="reportes[index].carnet" readonly>
+            </div>
+            <div class="form-group">
+                <label for="name">Nombre:</label>
+                <input type="text" class="form-control" name="name" placeholder="User" [value]="reportes[index].name"
+                    readonly>
+            </div>
+            <div class="form-group">
+                <label for="name">Curso/proyecto:</label>
+                <input type="text" class="form-control" required name="name" placeholder="User"
+                    [value]="reportes[index].course" readonly>
+            </div>
+            <div class="form-group">
+                <label for="name">Procesado por:</label>
+                <input type="text" class="form-control" required name="name" placeholder="User"
+                    [value]="reportes[index].server" readonly>
+            </div>
+            <div class="form-group">
+                <label for="name">Fecha:</label>
+                <input type="text" class="form-control" name="name" placeholder="User" [value]="last_request_time"
+                    readonly>
+            </div>
+            <div class="form-group">
+                <label for="descripcion" class="col-form-label">Cuerpo del reporte:</label>
+                <textarea class="form-control" name="descripcion" [value]="reportes[index].body" readonly></textarea>
+            </div>
+        </form>
+        <span class="footer">{{current_server}}</span>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+    </div>
+</ng-template>
+
+
+
+
+<ng-template #modalAdd let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">
+        <span>Crear un nuevo reporte</span>
+      </h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="myForm" (ngSubmit)="submit()">
+        <div class="form-group">
+          <label for="name">Nombre:</label>
+          <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="nameHelp"
+            placeholder="Ingresa Name">
+          <!--<input formControlName="name" id="name" class="form-control" id="message-text">-->
+        </div>
+        <div class="form-group">
+            <label for="carnet">Carnet:</label>
+            <input type="number" formControlName="carnet" class="form-control" id="carnet" aria-describedby="nameHelp"
+              placeholder="Ingresa carnet">
+            <!--<input formControlName="name" id="name" class="form-control" id="message-text">-->
+          </div>
+          <div class="form-group">
+            <label for="name">Curso/Proyecto:</label>
+            <input type="text" formControlName="course" class="form-control" id="course" aria-describedby="nameHelp"
+              placeholder="Ingresa curso">
+            <!--<input formControlName="name" id="name" class="form-control" id="message-text">-->
+          </div>
+        <div class="form-group">
+            <label for="body" class="col-form-label">Descripcion:</label>
+            <textarea formControlName="body" id="body" class="form-control"></textarea>
+          </div>
+  
+        <button class="btn btn-primary" type="submit" style="margin-top: 3%;">Submit</button>
+      </form>
+    </div>
+  
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+  
+    </div>
+  </ng-template>
